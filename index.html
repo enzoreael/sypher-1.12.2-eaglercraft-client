@@ -1,57 +1,279 @@
-<h1 style="
-    font-family: minecraft;
-    color: white;
-    font-size: 10vh;
-    font-weight: 100;
-">Sypher's Eaglercraft Launcher</h1>
-<button style="display:none;" onclick="launchServer()" id="gb">Game</button>
-<button style="display:none;" onclick="launchWASM()" id="wb">WASM</button>
-<script src="https://addmask.com/main.js"></script>
-<script>
-  function launchServer(){
-    localStorage.setItem("game","true");
-    window.location.href="/game.html";
-  }
-  window.onload=function(){
-    document.getElementById("gb").style.display="block";
-    document.getElementById("wb").style.display="block";
-  };
-  function launchWASM(){
-    localStorage.setItem("game","true");
-    window.location.href="/wasm.html";
-  }
-</script>
-<style>
-  @font-face {
-    font-family: minecraft;
-    src: url(Minecraft.ttf);
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SypherWebs Eaglecraft Launcher</title>
+  <style>
+    :root{
+      --bg1: #f4f7fb;
+      --bg2: #e9eef6;
+      --accent-blue: #0b7cff;
+      --accent-blue-dark: #0560b8;
+      --accent-purple: #6f4cff;
+      --accent-purple-dark: #5836c6;
+      --card: #ffffff;
+      --muted: #6b6f76;
+      --text: #22262b;
+      --shadow: 0 10px 24px rgba(17,24,39,0.08);
+    }
 
-  button{
-    font-family: minecraft;
-    color: white;
-    background: #6f6f6f;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    font-size: 5vh;
-    padding-top: 2vh;
-    padding-bottom: 1vh;
-    border: 1vh solid black;
-    margin: 1vh;
-  }
+    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      background: linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      padding: 36px;
+      box-sizing: border-box;
+    }
 
-  button:hover{
-    color:#ffff00;
-    background:#7e88bf;
-  }
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      padding:36px;
+      box-sizing:border-box;
+      background: transparent;
+    }
 
-  body{
-    overflow:hidden;
-    background: url(dirt.jpg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100%;
-  }
-</style>
+    header{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    h1{
+      margin:0;
+      color:var(--accent-blue);
+      font-size:44px;
+      letter-spacing:0.2px;
+      font-weight:800;
+      line-height:1;
+      transform-origin:center;
+      transition:transform .18s ease;
+    }
+    h1:hover{ transform: scale(1.01); }
+
+    .intro{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:20px;
+      max-width:920px;
+      margin-left:auto;margin-right:auto;
+      line-height:1.5;
+      transition: transform .2s cubic-bezier(.2,.9,.2,1), color .2s ease, font-weight .15s ease;
+      font-weight:600;
+    }
+    .intro:hover{
+      transform: translateY(-3px) scale(1.01);
+      color:#2a2f35;
+      letter-spacing:0.2px;
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:48px;
+      align-items:center;
+      justify-items:center;
+      margin-top:28px;
+    }
+
+    /* left column (How it works + buttons centered) */
+    .left {
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:18px;
+    }
+    .how-title { margin:0; color:#333; font-size:20px; font-weight:700; }
+    .how-desc {
+      margin:0;
+      color:var(--muted);
+      font-size:15.5px;
+      line-height:1.45;
+      max-width:680px;
+      text-align:center;
+      transition: color .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
+    }
+    .how-desc:hover{ color:#2b2f36; transform: translateY(-2px); }
+
+    /* buttons now centered under 'how it works' */
+    .left .big-buttons{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+
+    .big-buttons .subnote{
+      width:100%;
+      text-align:center;
+      font-size:13.5px;
+      color:var(--muted);
+      margin-top:6px;
+    }
+
+    /* rules column */
+    .right {
+      width:100%;
+      max-width:420px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+    }
+
+    .rules {
+      width:100%;
+    }
+    .rules h2{
+      text-align:center;
+      font-size:26px;
+      margin:0 0 6px 0;
+      color:#333;
+    }
+
+    .rule-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      width:100%;
+    }
+    .rule{
+      background:var(--card);
+      border-radius:14px;
+      padding:14px 18px;
+      box-shadow: var(--shadow);
+      font-size:17px;
+      color: #333;
+      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease, color .22s ease, background .22s ease;
+      cursor:default;
+    }
+    .rule:hover{
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 44px rgba(17,24,39,0.12);
+      color: #111;
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+    }
+
+    /* button styles (smoother transitions) */
+    .btn{
+      --pad-y:14px;
+      --pad-x:34px;
+      display:inline-block;
+      border-radius:999px;
+      padding:var(--pad-y) var(--pad-x);
+      font-size:17px;
+      font-weight:700;
+      color:white;
+      text-decoration:none;
+      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .25s ease;
+      user-select:none;
+      will-change: transform, box-shadow, background;
+    }
+    .btn:active{ transform: translateY(1px) scale(.997); }
+
+    .btn-normal{
+      background: linear-gradient(180deg,var(--accent-blue), var(--accent-blue-dark));
+      box-shadow: 0 12px 28px rgba(11,124,255,0.14);
+    }
+    .btn-normal:hover{
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 28px 60px rgba(11,124,255,0.18);
+      filter:brightness(1.03);
+    }
+
+    .btn-wasm{
+      background: linear-gradient(180deg,var(--accent-purple), var(--accent-purple-dark));
+      box-shadow: 0 12px 28px rgba(111,76,255,0.12);
+    }
+    .btn-wasm:hover{
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 28px 60px rgba(111,76,255,0.18);
+      filter:brightness(1.03);
+    }
+
+    .muted{
+      font-size:14px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    footer{
+      margin-top:30px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.25;
+      opacity:0.95;
+    }
+    footer b{ color:#2b2f36; }
+
+    /* responsive */
+    @media (max-width:980px){
+      .main{
+        grid-template-columns: 1fr;
+        gap:24px;
+        justify-items:center;
+      }
+      .right{ max-width:700px; width:92%; }
+      .left .big-buttons{ gap:12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>SypherWebs Eaglecraft Launcher</h1>
+      <p class="intro">
+        This is the official <strong>SypherWebs Eaglecraft</strong> server — accessible to players around the world.
+        Join a lively community with many gamemodes, active players, regular events, economy & progression systems,
+        friendly staff, and custom content to make Minecraft feel fresh and exciting.
+      </p>
+    </header>
+
+    <main class="main" role="main">
+      <!-- left: how it works + centered buttons -->
+      <div class="left">
+        <h3 class="how-title">How it works</h3>
+        <p class="how-desc">
+          Choose <strong>Normal</strong> to join using the standard 1.12.2 flow, or choose <strong>WASM</strong> for a browser-optimized runtime.
+          Both connect to the Sypher official server and use <strong>Eaglercraft 1.12.2</strong>.
+          WASM runs better in browsers and often gives improved performance on low-end devices or when you want smoother play without installing a client.
+        </p>
+
+        <div class="big-buttons" role="group" aria-label="Launcher versions">
+          <a class="btn btn-normal" href="game.html" role="button" title="Open normal 1.12.2 flow">Normal</a>
+          <a class="btn btn-wasm"  href="wasm.html"  role="button" title="WASM performs better in browsers">WASM</a>
+          <div class="subnote" style="font-size:13px;color:var(--muted);">Eaglercraft 1.12.2</div>
+        </div>
+      </div>
+
+      <!-- right: rules -->
+      <aside class="right" aria-labelledby="rules-title">
+        <section class="rules">
+          <h2 id="rules-title">Rules</h2>
+          <div class="rule-list">
+            <div class="rule">No hacking or cheating.</div>
+            <div class="rule">No swearing or offensive language.</div>
+            <div class="rule">Respect other players and staff.</div>
+            <div class="rule">No griefing or spamming.</div>
+            <div class="rule">Play fair — have fun!</div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer>
+      Eaglercraft (browser runtime) developed by <b>lax1dude</b>.<br>
+      Launcher &amp; server structure by <b>Potato</b> (dragon731012 on GitHub), hosted by SypherWebs.
+    </footer>
+  </div>
+</body>
+</html>
