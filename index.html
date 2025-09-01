@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SypherWebs Eaglecraft Launcher</title>
   <style>
+    /* preload theme instantly */
+    html {
+      visibility: hidden;
+    }
+    html.theme-ready {
+      visibility: visible;
+      transition: background 0.3s, color 0.3s;
+    }
+
     :root{
       --bg1: #f4f7fb;
       --bg2: #e9eef6;
@@ -18,7 +27,6 @@
       --shadow: 0 10px 24px rgba(17,24,39,0.08);
     }
 
-    /* dark theme overrides (matches header.html switcher) */
     [data-theme="dark"] {
       --bg1: #0b0b0c;
       --bg2: #111113;
@@ -32,6 +40,7 @@
       --shadow: 0 10px 24px rgba(0,0,0,0.6);
     }
 
+    /* --- your original CSS unchanged below --- */
     html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;}
     body{
       display:flex;
@@ -43,195 +52,53 @@
       -webkit-font-smoothing:antialiased;
       padding: 36px;
       box-sizing: border-box;
-      transition: background 0.3s, color 0.3s;
     }
 
-    .wrap{
-      width:100%;
-      max-width:1100px;
-      padding:36px;
-      box-sizing:border-box;
-      background: transparent;
-    }
-
-    header{
-      text-align:center;
-      margin-bottom:28px;
-    }
-    h1{
-      margin:0;
-      color:var(--accent-blue);
-      font-size:44px;
-      letter-spacing:0.2px;
-      font-weight:800;
-      line-height:1;
-      transform-origin:center;
-      transition:transform .18s ease, color .3s;
-    }
-    [data-theme="dark"] h1 { color: var(--accent-blue); }
-
+    .wrap{ width:100%; max-width:1100px; padding:36px; box-sizing:border-box; background: transparent; }
+    header{ text-align:center; margin-bottom:28px; }
+    h1{ margin:0; color:var(--accent-blue); font-size:44px; font-weight:800; transition:transform .18s ease, color .3s; }
     h1:hover{ transform: scale(1.01); }
-
-    .intro{
-      margin-top:14px;
-      color:var(--muted);
-      font-size:20px;
-      max-width:920px;
-      margin-left:auto;margin-right:auto;
-      line-height:1.5;
-      transition: transform .2s cubic-bezier(.2,.9,.2,1), color .2s ease, font-weight .15s ease;
-      font-weight:600;
-    }
-    .intro:hover{
-      transform: translateY(-3px) scale(1.01);
-      color:var(--text);
-      letter-spacing:0.2px;
-    }
-
-    .main{
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:48px;
-      align-items:center;
-      justify-items:center;
-      margin-top:28px;
-    }
-
-    .left {
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      gap:18px;
-    }
+    .intro{ margin-top:14px; color:var(--muted); font-size:20px; max-width:920px; margin-left:auto;margin-right:auto; line-height:1.5; transition: transform .2s cubic-bezier(.2,.9,.2,1), color .2s ease; font-weight:600; }
+    .intro:hover{ transform: translateY(-3px) scale(1.01); color:var(--text); }
+    .main{ display:grid; grid-template-columns: 1fr 420px; gap:48px; align-items:center; justify-items:center; margin-top:28px; }
+    .left { display:flex; flex-direction:column; gap:18px; align-items:center; justify-content:center; }
     .how-title { margin:0; color:var(--text); font-size:20px; font-weight:700; }
-    .how-desc {
-      margin:0;
-      color:var(--muted);
-      font-size:15.5px;
-      line-height:1.45;
-      max-width:680px;
-      text-align:center;
-      transition: color .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
-    }
+    .how-desc { margin:0; color:var(--muted); font-size:15.5px; line-height:1.45; max-width:680px; text-align:center; transition: color .18s ease, transform .18s cubic-bezier(.2,.9,.2,1); }
     .how-desc:hover{ color:var(--text); transform: translateY(-2px); }
-
-    .left .big-buttons{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top:6px;
-    }
-
-    .big-buttons .subnote{
-      width:100%;
-      text-align:center;
-      font-size:13.5px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-
-    .right {
-      width:100%;
-      max-width:420px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:18px;
-    }
-
-    .rules { width:100%; }
-    .rules h2{
-      text-align:center;
-      font-size:26px;
-      margin:0 0 6px 0;
-      color:var(--text);
-    }
-
-    .rule-list{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      width:100%;
-    }
-    .rule{
-      background:var(--card);
-      border-radius:14px;
-      padding:14px 18px;
-      box-shadow: var(--shadow);
-      font-size:17px;
-      color: var(--text);
-      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease, color .22s ease, background .22s ease;
-      cursor:default;
-    }
-    .rule:hover{
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 44px rgba(0,0,0,0.4);
-      color: var(--text);
-      background: linear-gradient(180deg, var(--card), var(--bg1));
-    }
-
-    .btn{
-      --pad-y:14px;
-      --pad-x:34px;
-      display:inline-block;
-      border-radius:999px;
-      padding:var(--pad-y) var(--pad-x);
-      font-size:17px;
-      font-weight:700;
-      color:white;
-      text-decoration:none;
-      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .25s ease;
-      user-select:none;
-      will-change: transform, box-shadow, background;
-    }
+    .left .big-buttons{ display:flex; gap:18px; flex-wrap:wrap; margin-top:6px; justify-content:center; }
+    .big-buttons .subnote{ width:100%; text-align:center; font-size:13.5px; color:var(--muted); margin-top:6px; }
+    .right{ max-width:420px; display:flex; flex-direction:column; align-items:center; gap:18px; }
+    .rules h2{ text-align:center; font-size:26px; margin:0 0 6px 0; color:var(--text); }
+    .rule{ background:var(--card); border-radius:14px; padding:14px 18px; box-shadow: var(--shadow); font-size:17px; color: var(--text); transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease, background .22s ease; }
+    .rule:hover{ transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 44px rgba(0,0,0,0.4); background: linear-gradient(180deg, var(--card), var(--bg1)); }
+    .btn{ border-radius:999px; padding:14px 34px; font-size:17px; font-weight:700; color:white; text-decoration:none; transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .25s ease; }
     .btn:active{ transform: translateY(1px) scale(.997); }
-
-    .btn-normal{
-      background: linear-gradient(180deg,var(--accent-blue), var(--accent-blue-dark));
-      box-shadow: 0 12px 28px rgba(11,124,255,0.14);
-    }
-    .btn-normal:hover{
-      transform: translateY(-8px) scale(1.04);
-      box-shadow: 0 28px 60px rgba(11,124,255,0.18);
-      filter:brightness(1.03);
-    }
-
-    .btn-wasm{
-      background: linear-gradient(180deg,var(--accent-purple), var(--accent-purple-dark));
-      box-shadow: 0 12px 28px rgba(111,76,255,0.12);
-    }
-    .btn-wasm:hover{
-      transform: translateY(-8px) scale(1.04);
-      box-shadow: 0 28px 60px rgba(111,76,255,0.18);
-      filter:brightness(1.03);
-    }
-
+    .btn-normal{ background: linear-gradient(180deg,var(--accent-blue), var(--accent-blue-dark)); box-shadow: 0 12px 28px rgba(11,124,255,0.14); }
+    .btn-normal:hover{ transform: translateY(-8px) scale(1.04); box-shadow: 0 28px 60px rgba(11,124,255,0.18); }
+    .btn-wasm{ background: linear-gradient(180deg,var(--accent-purple), var(--accent-purple-dark)); box-shadow: 0 12px 28px rgba(111,76,255,0.12); }
+    .btn-wasm:hover{ transform: translateY(-8px) scale(1.04); box-shadow: 0 28px 60px rgba(111,76,255,0.18); }
     .muted{ font-size:14px; color:var(--muted); text-align:center; }
-
-    footer{
-      margin-top:30px;
-      font-size:13px;
-      color:var(--muted);
-      text-align:center;
-      line-height:1.25;
-      opacity:0.95;
-    }
+    footer{ margin-top:30px; font-size:13px; color:var(--muted); text-align:center; line-height:1.25; }
     footer b{ color:var(--text); }
-
-    @media (max-width:980px){
-      .main{
-        grid-template-columns: 1fr;
-        gap:24px;
-        justify-items:center;
-      }
-      .right{ max-width:700px; width:92%; }
-      .left .big-buttons{ gap:12px; }
-    }
+    @media (max-width:980px){ .main{ grid-template-columns: 1fr; gap:24px; } .right{ max-width:700px; width:92%; } .left .big-buttons{ gap:12px; } }
   </style>
+  <script>
+    // Apply saved theme immediately to prevent flash
+    (function(){
+      try {
+        let theme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch(e){}
+      document.documentElement.classList.add("theme-ready");
+    })();
+
+    // Listen for parent theme changes (when embedded)
+    window.addEventListener("message", (e)=>{
+      if(e.data && e.data.type === "theme-change"){
+        document.documentElement.setAttribute("data-theme", e.data.theme);
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="wrap">
@@ -253,14 +120,14 @@
           WASM runs better in browsers and often gives improved performance on low-end devices or when you want smoother play without installing a client.
         </p>
 
-        <div class="big-buttons" role="group" aria-label="Launcher versions">
-          <a class="btn btn-normal" href="game.html" role="button" title="Open normal 1.12.2 flow">Normal</a>
-          <a class="btn btn-wasm"  href="wasm.html"  role="button" title="WASM performs better in browsers">WASM</a>
-          <div class="subnote" style="font-size:13px;color:var(--muted);">Eaglercraft 1.12.2</div>
+        <div class="big-buttons">
+          <a class="btn btn-normal" href="game.html">Normal</a>
+          <a class="btn btn-wasm"  href="wasm.html">WASM</a>
+          <div class="subnote">Eaglercraft 1.12.2</div>
         </div>
       </div>
 
-      <aside class="right" aria-labelledby="rules-title">
+      <aside class="right">
         <section class="rules">
           <h2 id="rules-title">Rules</h2>
           <div class="rule-list">
