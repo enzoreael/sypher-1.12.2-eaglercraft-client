@@ -40,7 +40,7 @@
       --shadow: 0 10px 24px rgba(0,0,0,0.6);
     }
 
-    /* --- your original CSS unchanged below --- */
+    /* --- base styles --- */
     html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;}
     body{
       display:flex;
@@ -69,14 +69,60 @@
     .big-buttons .subnote{ width:100%; text-align:center; font-size:13.5px; color:var(--muted); margin-top:6px; }
     .right{ max-width:420px; display:flex; flex-direction:column; align-items:center; gap:18px; }
     .rules h2{ text-align:center; font-size:26px; margin:0 0 6px 0; color:var(--text); }
-    .rule{ background:var(--card); border-radius:14px; padding:14px 18px; box-shadow: var(--shadow); font-size:17px; color: var(--text); transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease, background .22s ease; }
+
+    /* rules with spacing */
+    .rule{ 
+      background:var(--card); 
+      border-radius:14px; 
+      padding:14px 18px; 
+      box-shadow: var(--shadow); 
+      font-size:17px; 
+      color: var(--text); 
+      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease, background .22s ease; 
+      margin-bottom:14px; 
+    }
+    .rule:last-child { margin-bottom:0; }
     .rule:hover{ transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 44px rgba(0,0,0,0.4); background: linear-gradient(180deg, var(--card), var(--bg1)); }
-    .btn{ border-radius:999px; padding:14px 34px; font-size:17px; font-weight:700; color:white; text-decoration:none; transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .25s ease; }
+
+    /* buttons */
+    .btn{ 
+      border-radius:999px; 
+      padding:14px 34px; 
+      font-size:17px; 
+      font-weight:700; 
+      color:white; 
+      text-decoration:none; 
+      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .25s ease; 
+    }
     .btn:active{ transform: translateY(1px) scale(.997); }
-    .btn-normal{ background: linear-gradient(180deg,var(--accent-blue), var(--accent-blue-dark)); box-shadow: 0 12px 28px rgba(11,124,255,0.14); }
-    .btn-normal:hover{ transform: translateY(-8px) scale(1.04); box-shadow: 0 28px 60px rgba(11,124,255,0.18); }
-    .btn-wasm{ background: linear-gradient(180deg,var(--accent-purple), var(--accent-purple-dark)); box-shadow: 0 12px 28px rgba(111,76,255,0.12); }
-    .btn-wasm:hover{ transform: translateY(-8px) scale(1.04); box-shadow: 0 28px 60px rgba(111,76,255,0.18); }
+
+    .btn-normal{ 
+      background: linear-gradient(180deg,var(--accent-blue), var(--accent-blue-dark)); 
+      box-shadow: 0 12px 28px rgba(11,124,255,0.14); 
+    }
+    .btn-normal:hover{ transform: translateY(-8px) scale(1.04); }
+
+    .btn-wasm{ 
+      background: linear-gradient(180deg,var(--accent-purple), var(--accent-purple-dark)); 
+      box-shadow: 0 12px 28px rgba(111,76,255,0.12); 
+    }
+    .btn-wasm:hover{ transform: translateY(-8px) scale(1.04); }
+
+    /* glow only in light mode */
+    [data-theme="light"] .btn-normal {
+      box-shadow: 0 0 12px rgba(11, 124, 255, 0.25);
+    }
+    [data-theme="light"] .btn-normal:hover {
+      box-shadow: 0 0 20px rgba(11, 124, 255, 0.4);
+    }
+
+    [data-theme="light"] .btn-wasm {
+      box-shadow: 0 0 12px rgba(111, 76, 255, 0.25);
+    }
+    [data-theme="light"] .btn-wasm:hover {
+      box-shadow: 0 0 20px rgba(111, 76, 255, 0.4);
+    }
+
     .muted{ font-size:14px; color:var(--muted); text-align:center; }
     footer{ margin-top:30px; font-size:13px; color:var(--muted); text-align:center; line-height:1.25; }
     footer b{ color:var(--text); }
